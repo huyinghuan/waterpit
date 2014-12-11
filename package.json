@@ -1,0 +1,12 @@
+{
+  "name": "water-pit",
+  "version": "0.0.1",
+  "scripts": {
+    "test": ""
+  },
+  "dependencies": {
+    "express": "^4.10.5",
+    "body-parser": "^1.10.0",
+    "multer": ""
+  }
+}
