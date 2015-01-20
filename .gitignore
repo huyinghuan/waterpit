@@ -2,3 +2,5 @@
 node_modules
 lib
 sample
+!src/lib
+!src/sample
