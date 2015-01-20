@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "main": "lib/index.js",
   "scripts": {
-    "test": ""
+    "pretest": "coffee --no-header -o ./ -c src/",
+    "prepublish": "coffee --no-header -o ./ -c src/"
   },
   "dependencies": {
     "lodash": "^2.4.1"
   },
-  "scripts":{
-    "pretest": "coffee --no-header -o ./ -c src/",
-    "prepublish": "coffee --no-header -o ./ -c src/"
+  "devDependencies": {
+    "express": "^4.11.0"
   }
 }

@@ -11,6 +11,7 @@ npm install water-pit --save
 ## Getting Start
 ### 路由映射
 路由映射关系：
+
 ```
 path = require 'path'
 module.exports =
@@ -66,6 +67,7 @@ module.exports = {
 （提示：你可以通过继承来避免每个类都必须产生上述函数）
 
 如果你使用coffee那么实现非常简单：
+
 ```
 Base = require('water-pit').Base
 class Employee extends Base
@@ -76,7 +78,30 @@ moudle.exports = new Employee
 Base默认帮你实现了CURDA方法，当然，全部是以404最为结果防护
 
 ### Demo
-示例请查看src/sample文件夹
+
+```
+express = require 'express'
+Waterpit = require('waterpit').Waterpit
+
+RouterMap =
+  cwd: path.join __dirname, 'biz'
+  baseUrl: '/api'
+  map: [
+      {
+        path: '/employee'
+        biz: 'employee'
+        method: delete: false
+      }
+  ]
+
+app = express()
+router = express.Router()
+water = new Waterpit(router, RouterMap)
+app.use('/', router)
+app.listen(3000)
+```
+
+具体示例请查看src/sample文件夹
 
 ### LICENSE
 
