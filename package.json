@@ -1,12 +1,15 @@
 {
   "name": "water-pit",
   "version": "0.0.1",
+  "main": "lib/index.js",
   "scripts": {
     "test": ""
   },
   "dependencies": {
-    "express": "^4.10.5",
-    "body-parser": "^1.10.0",
-    "multer": ""
+    "lodash": "^2.4.1"
+  },
+  "scripts":{
+    "pretest": "coffee --no-header -o ./ -c src/",
+    "prepublish": "coffee --no-header -o ./ -c src/"
   }
 }
