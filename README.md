@@ -48,7 +48,15 @@ methods:{
 }
 ```
 上述值为默认值， 如需要禁止掉某种 类型 设置为false即可。 每种访问类型，对应的是业务逻辑biz相关的方法。
-如果GET默认调用业务逻辑的get， POST默认调用biz的post 等到。
+如GET默认调用业务逻辑的get， POST默认调用biz的post 等。 当然你也可以指定某个访问类型调用指定的方法如：
+
+```
+method:{
+  GET: 'getAll', PUT: 'update'
+}
+```
+
+GET调用业务逻辑的```getAll```, PUT调用```update```， 其他使用默认函数映射
 
 ### 业务逻辑
 业务逻辑需要遵循一定的规范.如下：
@@ -75,7 +83,7 @@ class Employee extends Base
 moudle.exports = new Employee
 ```
 
-Base默认帮你实现了CURDA方法，当然，全部是以404最为结果防护
+Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都是以404为返回结果
 
 ### Demo
 
