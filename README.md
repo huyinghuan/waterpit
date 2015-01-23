@@ -21,7 +21,7 @@ module.exports =
       {
         path: '/employee'
         biz: 'employee'
-        method: DELETE: false
+        methods: DELETE: false
       },
       ....
   ]
@@ -43,7 +43,7 @@ map
   完整的如下：
 
 ```
-method:{
+methods:{
   GET: true, PUT: true, POST: true, Delete: true, ALL: true
 }
 ```
@@ -90,7 +90,7 @@ RouterMap =
       {
         path: '/employee'
         biz: 'employee'
-        method: delete: false
+        methods: delete: false
       }
   ]
 
@@ -113,3 +113,6 @@ MIT
 ### Histroy
 
 0.0.1 基本功能完善
+
+0.0.2 bug修复
+  修复route-map的属性读取错误

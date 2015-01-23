@@ -8,7 +8,7 @@ class Router
     bizPath = path.join cwd, record.biz
     #biz实例
     biz =  require bizPath
-    methods = record.map or {}
+    methods = record.methods or {}
     self = @
     router.route(url)
       .all(self.getExecute(biz, methods['ALL'], 'all'))
