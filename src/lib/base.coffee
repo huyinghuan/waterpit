@@ -41,5 +41,6 @@ class Base
     205 重复内容
   ###
   code205: (resp, message = "repeat content")->
+    resp.status(205).send(message)
 
 module.exports = Base
