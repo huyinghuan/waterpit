@@ -5,8 +5,20 @@ module.exports =
   baseUrl: '/api'
   map: [
       {
-        path: '/employee'
-        biz: 'employee'
+        path: '/A'
+        biz: 'A'
         method: delete: false
       }
+      {
+        path: '/A'
+        biz: 'A'
+        method: delete: false
+      }
+  ]
+  filter: [
+    {
+      path: ['/api/*'] #
+      ignore: [] #支持string和正则表达式
+      biz: 'A-filter'
+    }
   ]
