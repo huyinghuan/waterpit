@@ -5,24 +5,32 @@ class Filter
 
     pathArray = [].concat(record.path)
 
-    ignoreArray = [].concat(record.ignore)
+    @ignoreArray = if record.ignore then [].concat(record.ignore) else []
 
-    bizPath = _path.join(cwd, record.biz)
-
+    bizPathArr = [].concat(record.biz)
+    bizPathArr = (_path.join(cwd, bizPath) for bizPath in bizPathArr)
     self = @
+    #循环路径
+    for apiPath in pathArray
+      #业务循环
+      for bizPath in bizPathArr
+        self.matchRouter(bizPath, apiPath, router)
 
-    for item in pathArray
-      biz =  require bizPath
-      router.all(item, (req, resp, next)->
-        #匹配到忽略路径
-        return next() if self.isMatchPath(req.path, ignoreArray)
-        method = req.method.toLowerCase()
-        #如果有对应的方法就用，如果没有就调用本身
-        if biz.hasOwnProperty(method)
-          biz[method](req, resp, next)
-        else
-          biz(req, resp, next)
-      )
+  matchRouter: (bizPath, apiPath, router)->
+    self = @
+    biz = require bizPath
+    router.all(apiPath, (req, resp, next)->
+      #匹配到忽略路径
+      return next() if self.isMatchPath(req.path, self.ignoreArray)
+      method = req.method.toLowerCase()
+      #如果有对应的方法就用，如果没有就调用本身
+      if biz[method] and _.isFunction(biz[method])
+        biz[method](req, resp, next)
+      else if biz['all'] and _.isFunction(biz['all'])
+        biz.all(req, resp, next)
+      else
+        biz(req, resp, next)
+    )
 
   isMatchPath: (path, arr)->
     for item in arr

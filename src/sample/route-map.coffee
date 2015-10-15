@@ -10,15 +10,32 @@ module.exports =
         method: delete: false
       }
       {
-        path: '/A'
-        biz: 'A'
+        path: '/B'
+        biz: 'B'
         method: delete: false
       }
   ]
   filter: [
+# ------第一种方式
+#    {
+#      path: ['/api/*'] #
+#      ignore: [/^\/api\/A$/] #支持string和正则表达式
+#      biz: ['A-filter', 'B-filter']
+#    }
+# -------第二种方式
+#    {
+#      path: ['/api/*'] #
+#      ignore: [/^\/api\/B$/] #支持string和正则表达式
+#      biz: ['A-filter']
+#    }
+#    {
+#      path: ['/api/*'] #
+#      ignore: [/^\/api\/A$/] #支持string和正则表达式
+#      biz: ['B-filter']
+#    }
+#---------第三种方式
     {
-      path: ['/api/*'] #
-      ignore: [] #支持string和正则表达式
-      biz: 'A-filter'
+      path: ['/api/A', '/api/B']
+      biz: ['A-filter', 'B-filter']
     }
   ]

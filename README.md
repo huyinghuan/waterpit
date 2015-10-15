@@ -19,12 +19,19 @@ module.exports =
   baseUrl: '/api'
   map: [
       {
-        path: '/employee'
-        biz: 'employee'
+        path: '/A'
+        biz: 'A'
         methods: DELETE: false
       },
       ....
   ]
+  filter: [
+       {
+         path: ['/api/*'] #
+         ignore: [] #支持string和正则表达式
+         biz: 'A-filter'
+       }
+   ]
 ```
 
 cwd
@@ -33,11 +40,11 @@ cwd
 
 baseUrl
   基础访问路径， 映射到客户端的 最终路径是 path.join(baseUrl, bizMap.path)
-  如上述配置 客户端端需访问/api/employee才能映射到biz逻辑
+  如上述配置 客户端端需访问/api/A 才能映射到biz逻辑
 
 map
-  映射关系， 数组。
-  path 访问路径（注意实际路径会加入baseUrl构成）
+  路由映射关系， 数组。
+  path 访问路径（注意实际路径！！！会！！！加入baseUrl构成）
   biz 业务逻辑名字（文件名）
   method restful类型映射
   完整的如下：
@@ -48,7 +55,11 @@ methods:{
 }
 ```
 上述值为默认值， 如需要禁止掉某种 类型 设置为false即可。 每种访问类型，对应的是业务逻辑biz相关的方法。
-如GET默认调用业务逻辑的get， POST默认调用biz的post 等。 当然你也可以指定某个访问类型调用指定的方法如：
+如GET默认调用业务逻辑的get， POST默认调用biz的post 等。
+ 
+当然你也可以指定某个访问类型调用指定的方法如：
+
+GET调用业务逻辑的```getAll```, PUT调用```update```， 其他使用默认函数映射
 
 ```
 method:{
@@ -56,7 +67,47 @@ method:{
 }
 ```
 
-GET调用业务逻辑的```getAll```, PUT调用```update```， 其他使用默认函数映射
+filter
+  过滤器．放在所有请求前面．数组
+  
+  path 数组． 访问路径（注意实际路径！！！不会！！！加入baseUrl构成）
+  
+  ignore 
+    数组．在匹配的路径里面忽略哪些路径． 可选
+    支持string和正则表达式，为string时，常用 ```=== request.path```来判断是否护绿．
+  
+  biz 数组或单个元素 业务逻辑名字（文件名）
+    biz业务逻辑必须满足如下结构
+    
+```
+
+module.exports = (request, response, next)->
+  ....
+  next()  
+  
+or
+
+BaseFilter = require('water-pit').BaseFilter
+
+###
+这样的写法的话这里必须继承BaseFilter. 如果不继承，则需要实现all方法.
+
+Filter这样的写法，Water-pit会帮你实现，当拦截的是GET请求时，访问get方法，POST去请求时，访问POST.
+如果该请求类型未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
+###
+class DemoFilter extend BaseFilter
+  constructor: ->
+  get: (req, resp, next)->
+    ....
+    next()
+  ...
+  #如果没有继承BaseFilter,那么这个函数是必须的
+  all: (request, response, next)-> next()
+
+```
+不管上述哪种写法，除非你确定请求不需要走到下个拦截器或者业务逻辑，
+那么一定不要提前写出response流并且在函数执行末尾调用next()方法，
+让request请求进入到下一个阶段
 
 ### 业务逻辑
 业务逻辑需要遵循一定的规范.如下：
@@ -119,6 +170,9 @@ MIT
 欢迎 在issue处提出任何新功能 或者bug 请求
 
 ### Histroy
+0.0.4
+
+  增加filter配置．修改sample
 
 0.0.1 基本功能完善
 

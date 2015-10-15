@@ -17,6 +17,10 @@ class Waterpit
     for record in @filter
       new Filter(@router, record, @cwd, @baseUrl)
 
+
+_Base = require './base'
+_BaseFilter = require './base-filter'
 module.exports =
   Waterpit: Waterpit
-  Base: require './base'
+  Base: _Base
+  BaseFilter: _BaseFilter
