@@ -1,12 +1,12 @@
 {
   "name": "water-pit",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "scripts": {
-    "pretest": "coffee --no-header -o ./ -c src/",
     "prepublish": "coffee --no-header -o ./ -c src/"
   },
   "dependencies": {
+    "handlebars": "^4.0.5",
     "lodash": "^2.4.1"
   },
   "devDependencies": {

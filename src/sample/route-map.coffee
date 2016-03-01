@@ -39,3 +39,9 @@ module.exports =
       biz: ['A-filter', 'B-filter']
     }
   ]
+  page: {
+    context: path.join __dirname, 'biz/render' #渲染器
+    path: ['/static/:page'] #路径 /static/:context/:template/:page  默认情况使 page == template = context
+    template: path.join __dirname, 'template' #模板位置
+    helper: path.join __dirname, 'biz/render/handlebar-helper'
+  }

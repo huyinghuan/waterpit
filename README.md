@@ -67,7 +67,7 @@ method:{
 }
 ```
 
-filter
+### Filter
   过滤器．放在所有请求前面．数组
   
   path 数组． 访问路径（注意实际路径！！！不会！！！加入baseUrl构成）
@@ -77,10 +77,10 @@ filter
     支持string和正则表达式，为string时，常用 ```=== request.path```来判断是否护绿．
   
   biz 数组或单个元素 业务逻辑名字（文件名）
-    biz业务逻辑必须满足如下结构
+  
+  biz业务逻辑必须满足如下结构
     
 ```
-
 module.exports = (request, response, next)->
   ....
   next()  
@@ -88,13 +88,15 @@ module.exports = (request, response, next)->
 or
 
 BaseFilter = require('water-pit').BaseFilter
+```
 
-###
+
 这样的写法的话这里必须继承BaseFilter. 如果不继承，则需要实现all方法.
 
 Filter这样的写法，Water-pit会帮你实现，当拦截的是GET请求时，访问get方法，POST去请求时，访问POST.
 如果该请求类型未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
-###
+
+```
 class DemoFilter extend BaseFilter
   constructor: ->
   get: (req, resp, next)->
@@ -103,7 +105,6 @@ class DemoFilter extend BaseFilter
   ...
   #如果没有继承BaseFilter,那么这个函数是必须的
   all: (request, response, next)-> next()
-
 ```
 不管上述哪种写法，除非你确定请求不需要走到下个拦截器或者业务逻辑，
 那么一定不要提前写出response流并且在函数执行末尾调用next()方法，
@@ -135,6 +136,60 @@ moudle.exports = new Employee
 ```
 
 Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都是以404为返回结果
+
+
+#### Page 渲染静态模板
+  
+```
+ page: {
+    context: path.join __dirname, 'render' #上下文数据所在文件夹
+    path: ['/static/:page'] #路径 /static/:context/:template/:page  默认情况使 page == template = context
+    template: path.join __dirname, 'template' #模板位置
+    helper: 
+  }
+```
+
+@params ```context```
+
+  渲染器上下文的根目录. 函数必须符合如下标准:
+  
+```
+module.export = (params, query, cb)->
+  ...
+  #params 表示req.params
+  #query 表示 req.query
+  #cb  上下文回调
+  cb(data)
+```
+
+  将模板的上下文传入回调函数.
+
+@params ```path```
+
+需要渲染模板的request请求路径
+
+```
+req.params中 
+ context 用来指定上下文获取函数, 可选, 当不存在时 , context = page
+ template 用来指定渲染哪个模板文件(不用带后缀)
+ page是必须的 用来描述渲染url, 同时当context, template缺失时,用来给context, template赋值
+ 
+```
+
+@params  ```template```
+
+用来指定模板文件所在的文件夹
+
+@params ```helper```
+
+用来指定自定义模板助手. 模板助手必须满足以下标准
+
+```
+module.exports = (Handlebars, config)->
+  Handlebars.registerHelper("A", (xx)-> xxx)
+  Handlebars.registerHelper("B", (xx)-> xxx)
+  ...
+```
 
 ### Demo
 
@@ -170,6 +225,10 @@ MIT
 欢迎 在issue处提出任何新功能 或者bug 请求
 
 ### Histroy
+0.0.5
+ 
+ 增加静态模板渲染, 修改sample
+
 0.0.4
 
   增加filter配置．修改sample

@@ -1,12 +1,16 @@
 Router = require './router'
 Filter = require './filter'
+Page = require './page'
+
 class Waterpit
   constructor: (@router, routerMap)->
     @cwd = routerMap.cwd
     @map = routerMap.map or []
     @filter = routerMap.filter or []
+    @page = routerMap.page
     @baseUrl = routerMap.baseUrl
     @initFilter()
+    @initPage() if @page
     @initRouter()
 
   initRouter: ->
@@ -16,6 +20,9 @@ class Waterpit
   initFilter: ->
     for record in @filter
       new Filter(@router, record, @cwd, @baseUrl)
+
+  initPage: ->
+    new Page(@router, @page)
 
 
 _Base = require './base'
