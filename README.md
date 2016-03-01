@@ -34,15 +34,15 @@ module.exports =
    ]
 ```
 
-cwd
+##### cwd
   表示业务逻辑的根目录， 请求的最终业务逻辑是  path.join(cwd, bizMap.biz)
   bizMap为map中的元素， 如上述配置请求的是 path.join(__dirname, 'biz', biz)这个业务逻辑
 
-baseUrl
+##### baseUrl
   基础访问路径， 映射到客户端的 最终路径是 path.join(baseUrl, bizMap.path)
   如上述配置 客户端端需访问/api/A 才能映射到biz逻辑
 
-map
+##### map
   路由映射关系， 数组。
   path 访问路径（注意实际路径！！！会！！！加入baseUrl构成）
   biz 业务逻辑名字（文件名）
@@ -54,6 +54,7 @@ methods:{
   GET: true, PUT: true, POST: true, Delete: true, ALL: true
 }
 ```
+
 上述值为默认值， 如需要禁止掉某种 类型 设置为false即可。 每种访问类型，对应的是业务逻辑biz相关的方法。
 如GET默认调用业务逻辑的get， POST默认调用biz的post 等。
  
@@ -80,23 +81,25 @@ method:{
   
   biz业务逻辑必须满足如下结构
     
-```
+
+```coffee
 module.exports = (request, response, next)->
   ....
   next()  
   
 or
-
 BaseFilter = require('water-pit').BaseFilter
 ```
 
 
-这样的写法的话这里必须继承BaseFilter. 如果不继承，则需要实现all方法.
-
-Filter这样的写法，Water-pit会帮你实现，当拦截的是GET请求时，访问get方法，POST去请求时，访问POST.
-如果该请求类型未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
+未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
 
 ```
+###
+#这样的写法的话这里必须继承BaseFilter. 如果不继承，则需要实现all方法.
+#Filter这样的写法，Water-pit会帮你实现，当拦截的是GET请求时，访问get方法，POST去请求时，访问POST.
+#如果该请求类型未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
+###
 class DemoFilter extend BaseFilter
   constructor: ->
   get: (req, resp, next)->
