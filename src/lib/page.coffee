@@ -27,19 +27,32 @@ class Page
     def = page.split('.').shift()
     context = params.context or def
     template = params.template or def
-    templatePath = _path.join(templateDir, "#{template}.hbs")
-    contextPath = _path.join(contextDir, context)
+    templatePath = _path.resolve(templateDir, "#{template}.hbs")
+    #是否有模板文件
+    try
+      _fs.accessSync(templatePath, _fs.R_OK)
+    catch e
+      return resp.sendStatus(404)
+
+    contextPath = _path.resolve(contextDir, context)
+    try
+      _fs.accessSync(contextPath, _fs.R_OK)
+    catch e
+      return resp.sendStatus(404)
+
     contextFn = require(contextPath)
     _fs.readFile(templatePath, 'utf8', (err, content)->
       if err
         console.error err
-        return resp.sendStatus(500)
+        return resp.sendStatus(503)
+      try
+        compileTemplate = _Handlebars.compile(content)
 
-      compileTemplate = _Handlebars.compile(content)
-
-      contextFn(params, req.query, (data)->
-        resp.send(compileTemplate(data))
-      )
+        contextFn(params, req.query, (data)->
+          resp.send(compileTemplate(data))
+        )
+      catch e
+        resp.sendStatus(503)
     )
 
 
