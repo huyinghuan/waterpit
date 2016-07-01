@@ -36,11 +36,10 @@ class Page
 
     contextPath = _path.resolve(contextDir, context)
     try
-      _fs.accessSync(contextPath, _fs.R_OK)
+      contextFn = require(contextPath)
     catch e
       return resp.sendStatus(404)
 
-    contextFn = require(contextPath)
     _fs.readFile(templatePath, 'utf8', (err, content)->
       if err
         console.error err
