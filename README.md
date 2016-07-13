@@ -162,7 +162,9 @@ module.export = (params, query, cb)->
   #params 表示req.params
   #query 表示 req.query
   #cb  上下文回调
-  cb(data)
+  必须执行 cb(data)
+
+  #注: session 以上下文的方式提供, 该函数内 this == req.session
 ```
 
   将模板的上下文传入回调函数.

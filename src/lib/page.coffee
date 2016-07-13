@@ -47,7 +47,7 @@ class Page
       try
         compileTemplate = _Handlebars.compile(content)
 
-        contextFn(params, req.query, (data)->
+        contextFn.call(req.session, params, req.query, (data)->
           resp.send(compileTemplate(data))
         )
       catch e
