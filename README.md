@@ -157,14 +157,12 @@ Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都�
   渲染器上下文的根目录. 函数必须符合如下标准:
   
 ```
-module.export = (params, query, cb)->
+module.export = (cb)->
   ...
-  #params 表示req.params
-  #query 表示 req.query
   #cb  上下文回调
   必须执行 cb(data)
 
-  #注: session 以上下文的方式提供, 该函数内 this == req.session
+  #注: req 以上下文的方式提供, 该函数内 this == req
 ```
 
   将模板的上下文传入回调函数.

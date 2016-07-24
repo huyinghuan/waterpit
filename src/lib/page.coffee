@@ -46,10 +46,7 @@ class Page
         return resp.sendStatus(503)
       try
         compileTemplate = _Handlebars.compile(content)
-
-        contextFn.call(req.session, params, req.query, (data)->
-          resp.send(compileTemplate(data))
-        )
+        contextFn.call(req, (data)-> resp.send(compileTemplate(data)))
       catch e
         resp.sendStatus(503)
     )
