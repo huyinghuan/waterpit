@@ -5,4 +5,5 @@ app = express()
 router = express.Router()
 water = new Waterpit(router, RouterMap)
 app.use('/', router)
-app.listen(3000)
+app.listen(3400)
+module.exports = app

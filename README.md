@@ -16,14 +16,19 @@ npm install water-pit --save
 path = require 'path'
 module.exports =
   cwd: path.join __dirname, 'biz'
-  baseUrl: '/api'
-  map: [
-      {
-        path: '/A'
-        biz: 'A'
-        methods: DELETE: false
-      },
-      ....
+  maps: [
+    {
+      baseUrl: '/api'
+      map: [
+        {
+          path: '/A'
+          biz: 'A'
+          methods: DELETE: false
+        },
+        ...
+      ]
+    },
+    ...
   ]
   filter: [
        {
@@ -35,7 +40,7 @@ module.exports =
 ```
 
 ##### cwd
-  表示业务逻辑的根目录， 请求的最终业务逻辑是  path.join(cwd, bizMap.biz)
+  表示业务逻辑的根目录， 请求的最终业务逻辑是  path.resolve(cwd, bizMap.biz)
   bizMap为map中的元素， 如上述配置请求的是 path.join(__dirname, 'biz', biz)这个业务逻辑
 
 ##### baseUrl
@@ -71,7 +76,7 @@ method:{
 ### Filter
   过滤器．放在所有请求前面．数组
   
-  path 数组． 访问路径（注意实际路径！！！不会！！！加入baseUrl构成）
+  path 数组． 访问路径
   
   ignore 
     数组．在匹配的路径里面忽略哪些路径． 可选
@@ -220,6 +225,18 @@ app.listen(3000)
 
 具体示例请查看src/sample文件夹
 
+### Test
+
+```
+npm test
+```
+
+Test Result:
+
+```
+/src/converage/Icov-report/index.html
+```
+
 ### LICENSE
 
 MIT
@@ -228,6 +245,10 @@ MIT
 欢迎 在issue处提出任何新功能 或者bug 请求
 
 ### Histroy
+1.0.1
+
+修改routeMap 规则为数组,可以设置多个前缀开始的biz
+
 0.0.8
 
  增加静态模板渲染数据函数的上下文为session

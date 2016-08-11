@@ -1,7 +1,7 @@
 _ = require 'lodash'
 _path = require 'path'
 class Filter
-  constructor: (router, record, cwd, baseUrl)->
+  constructor: (router, record, cwd)->
 
     pathArray = [].concat(record.path)
 

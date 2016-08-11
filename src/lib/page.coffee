@@ -16,8 +16,11 @@ class Page
       )
 
   initHelper: ->
-    helper = require(@config.helper)
-    helper(_Handlebars)
+    try
+      helper = require(@config.helper)
+      helper(_Handlebars)
+    catch e
+      "NO handlebar helper";
 
   execute: (req, resp)->
     params = req.params
@@ -48,12 +51,8 @@ class Page
         compileTemplate = _Handlebars.compile(content)
         contextFn.call(req, (data)-> resp.send(compileTemplate(data)))
       catch e
+        console.log e
         resp.sendStatus(503)
     )
-
-
-
-
-
 
 module.exports = Page

@@ -1,15 +1,19 @@
 {
   "name": "water-pit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "coffee --no-header -o ./ -c src/"
+    "prepublish": "coffee --no-header -o ./ -c src/",
+    "test": "cd src && mocha --recursive --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul test && ../node_modules/.bin/istanbul report"
   },
   "dependencies": {
     "handlebars": "^4.0.5",
-    "lodash": "^2.4.1"
+    "lodash": "^4.14.2"
   },
   "devDependencies": {
-    "express": "^4.11.0"
+    "coffee-coverage": "^1.0.1",
+    "express": "^4.11.0",
+    "istanbul": "^0.4.4",
+    "supertest": "^2.0.0"
   }
 }
