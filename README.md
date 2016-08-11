@@ -4,7 +4,7 @@
 
 ## Install
 
-```
+```shell
 npm install water-pit --save
 ```
 
@@ -12,7 +12,7 @@ npm install water-pit --save
 ### 路由映射
 路由映射关系：
 
-```
+```coffee
 path = require 'path'
 module.exports =
   cwd: path.join __dirname, 'biz'
@@ -54,7 +54,7 @@ module.exports =
   method restful类型映射
   完整的如下：
 
-```
+```coffee
 methods:{
   GET: true, PUT: true, POST: true, Delete: true, ALL: true
 }
@@ -67,8 +67,8 @@ methods:{
 
 GET调用业务逻辑的```getAll```, PUT调用```update```， 其他使用默认函数映射
 
-```
-method:{
+```coffeee
+methods:{
   GET: 'getAll', PUT: 'update'
 }
 ```
@@ -94,12 +94,9 @@ module.exports = (request, response, next)->
   
 or
 BaseFilter = require('water-pit').BaseFilter
-```
 
+# 未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
 
-未在Filter中进行定义，那么就会调用该类的all函数．因此all是必须的．你可以自己实现或者继承BaseFilter
-
-```
 ###
 #这样的写法的话这里必须继承BaseFilter. 如果不继承，则需要实现all方法.
 #Filter这样的写法，Water-pit会帮你实现，当拦截的是GET请求时，访问get方法，POST去请求时，访问POST.
@@ -121,7 +118,7 @@ class DemoFilter extend BaseFilter
 ### 业务逻辑
 业务逻辑需要遵循一定的规范.如下：
 
-```
+```javascript
 module.exports = {
   all: function(request, respone, next){ ... }
   get: function(request, respone, next){ ... }
@@ -136,7 +133,7 @@ module.exports = {
 
 如果你使用coffee那么实现非常简单：
 
-```
+```coffee
 Base = require('water-pit').Base
 class Employee extends Base
   constructor:->
@@ -148,7 +145,7 @@ Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都�
 
 #### Page 渲染静态模板
   
-```
+```coffee
  page: {
     context: path.join __dirname, 'render' #上下文数据所在文件夹
     path: ['/static/:page'] #路径 /static/:context/:template/:page  默认情况使 page == template = context
@@ -161,7 +158,7 @@ Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都�
 
   渲染器上下文的根目录. 函数必须符合如下标准:
   
-```
+```coffee
 module.export = (cb)->
   ...
   #cb  上下文回调
@@ -192,7 +189,7 @@ req.params中
 
 用来指定自定义模板助手. 模板助手必须满足以下标准
 
-```
+```coffee
 module.exports = (Handlebars, config)->
   Handlebars.registerHelper("A", (xx)-> xxx)
   Handlebars.registerHelper("B", (xx)-> xxx)
@@ -201,20 +198,23 @@ module.exports = (Handlebars, config)->
 
 ### Demo
 
-```
+```coffee
 express = require 'express'
 Waterpit = require('waterpit').Waterpit
 
 RouterMap =
   cwd: path.join __dirname, 'biz'
-  baseUrl: '/api'
-  map: [
-      {
-        path: '/employee'
-        biz: 'employee'
-        methods: delete: false
-      }
-  ]
+  maps:
+    [{
+      baseUrl: '/api'
+      map: [
+          {
+            path: '/employee'
+            biz: 'employee'
+            methods: delete: false
+          }
+      ]
+    }]
 
 app = express()
 router = express.Router()
@@ -227,7 +227,7 @@ app.listen(3000)
 
 ### Test
 
-```
+```shell
 npm test
 ```
 
