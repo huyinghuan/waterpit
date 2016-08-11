@@ -1,2 +1,2 @@
 module.exports = (cb)->
-  cb({time: new Date().getTime(), id: @query.id})
+  cb(null, {time: new Date().getTime(), id: @query.id})

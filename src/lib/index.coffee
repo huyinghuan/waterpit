@@ -5,16 +5,7 @@ Page = require './page'
 class Waterpit
   constructor: (@router, routerMap)->
     @cwd = routerMap.cwd
-    @maps = []
-    if not routerMap.maps
-      console.log "this map config is go out, please use maps replace."
-      @maps = [{
-        baseUrl: routerMap.baseUrl
-        map: routerMap.map or []
-      }]
-    else
-      @maps = [].concat(routerMap.maps)
-
+    @maps = if routerMap.maps then [].concat(routerMap.maps) else []
     @filter = routerMap.filter or []
     @page = routerMap.page
     @initFilter()

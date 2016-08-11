@@ -150,7 +150,8 @@ Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都�
     context: path.join __dirname, 'render' #上下文数据所在文件夹
     path: ['/static/:page'] #路径 /static/:context/:template/:page  默认情况使 page == template = context
     template: path.join __dirname, 'template' #模板位置
-    helper: 
+    helper: require('xxxxx') #模板helper 可选配置
+    errorHandle: require('xxx') #错误处理 可选配置
   }
 ```
 
@@ -162,7 +163,8 @@ Base默认帮你实现了CURDA方法，当然，以上默认实现的方法都�
 module.export = (cb)->
   ...
   #cb  上下文回调
-  必须执行 cb(data)
+  #data 提供编译模板所需要的数据
+  必须执行 cb(error, data)
 
   #注: req 以上下文的方式提供, 该函数内 this == req
 ```
@@ -195,6 +197,22 @@ module.exports = (Handlebars, config)->
   Handlebars.registerHelper("B", (xx)-> xxx)
   ...
 ```
+
+@params ```errorHandle```
+
+当```context```上下文获取函数出错时, 调用了 ```cb(error)``` 那么该errorHandle会执行,
+他必须满足一下标注:
+
+```coffee
+# error 为context传过来的错误消息.
+module.exports = (error, request, response)->
+    ...
+    response.send somethings
+```
+
+改参数为可选参数,如果没有设置,那么发生错误 默认发送503 http status code.
+
+
 
 ### Demo
 
@@ -245,7 +263,13 @@ MIT
 欢迎 在issue处提出任何新功能 或者bug 请求
 
 ### Histroy
-1.0.1
+1.1.0
+  
+  该版本不兼容以前的config设置包括render设置
+  1. 增加模板渲染时的错误handle.
+
+1.0.1 
+该版本为兼容版本
 
 修改routeMap 规则为数组,可以设置多个前缀开始的biz
 

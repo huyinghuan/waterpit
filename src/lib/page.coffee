@@ -16,11 +16,10 @@ class Page
       )
 
   initHelper: ->
-    try
-      helper = require(@config.helper)
-      helper(_Handlebars)
-    catch e
-      "NO handlebar helper";
+    if @config.helper
+      @config.helper(_Handlebars)
+    else
+      console.log "NO handlebar helper";
 
   execute: (req, resp)->
     params = req.params
@@ -31,6 +30,7 @@ class Page
     context = params.context or def
     template = params.template or def
     templatePath = _path.resolve(templateDir, "#{template}.hbs")
+    errorHandle = @config.errorHandle || (error, req, resp)-> resp.sendStatus(503)
     #是否有模板文件
     try
       _fs.accessSync(templatePath, _fs.R_OK)
@@ -49,7 +49,10 @@ class Page
         return resp.sendStatus(503)
       try
         compileTemplate = _Handlebars.compile(content)
-        contextFn.call(req, (data)-> resp.send(compileTemplate(data)))
+        contextFn.call(req, (error, data)->
+          return resp.send(compileTemplate(data)) if not error
+          errorHandle(error, req,  resp)
+        )
       catch e
         console.log e
         resp.sendStatus(503)
