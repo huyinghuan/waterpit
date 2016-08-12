@@ -264,8 +264,8 @@ MIT
 
 ### Histroy
 1.1.0
+该版本不兼容以前的config设置包括render设置
   
-  该版本不兼容以前的config设置包括render设置
   1. 增加模板渲染时的错误handle.
 
 1.0.1 

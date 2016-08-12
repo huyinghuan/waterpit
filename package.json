@@ -1,6 +1,6 @@
 {
   "name": "water-pit",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "coffee --no-header -o ./ -c src/",
