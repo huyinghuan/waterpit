@@ -9,12 +9,12 @@ module.exports =
         {
           path: '/A'
           biz: 'A'
-          method: delete: false
+          methods: delete: false
         }
         {
           path: '/B'
           biz: 'B'
-          method: delete: false
+          methods: delete: false
         }
       ]
     }
