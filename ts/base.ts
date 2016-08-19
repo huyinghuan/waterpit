@@ -7,3 +7,4 @@ class Base{
     delete(req, resp, next){this.noFound(req, resp, next)} 
     noFound(req, resp, next){resp.status(404).send(`${req.path} ${req.method} no found!`)}
 }
+export default Base

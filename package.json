@@ -2,7 +2,7 @@
   "name": "water-pit",
   "version": "1.1.0",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "typings": "ts/index.ts",
   "scripts": {
     "prepublish": "coffee --no-header -o ./ -c src/",
     "test": "cd src && mocha --recursive --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul test && ../node_modules/.bin/istanbul report"
