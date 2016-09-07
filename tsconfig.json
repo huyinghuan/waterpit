@@ -4,7 +4,8 @@
         "target": "es6",
         "noImplicitAny": false,
         "sourceMap": false,
-        "outDir": "./"
+        "outDir": "./",
+        "rootDir": "./ts"
     },
     "exclude": [
         "node_modules"
