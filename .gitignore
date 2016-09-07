@@ -4,7 +4,5 @@ lib
 sample
 !src/lib
 !src/sample
-!src/test
 coverage
-test
 typings
